@@ -1,0 +1,29 @@
+{% extends 'ConsultFrontendBundle:Layout:base.html.twig' %}
+
+{% block title %}Напомнить пароль{% endblock %}
+
+{% block body %}
+<div class="jumbotron">  
+   <div class="container">
+      <h1>Забыли пароль?</h1>
+      <p class="lead">Вы можете сменить пароль только для аккаунта с правами администратора. <br />Для консультантов восстановление паролей недоступно. </p>
+   </div>
+</div>
+<div class="container">
+    <form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+        <h2 class="form-signin-heading">Напомнить пароль</h2>
+        {{ form_row(form.email, {
+            label: 'E-mail',
+            attr : { placeholder : 'E-mail'},
+            label_attr : { class: 'sr-only'}
+        }) }}
+        {{ form_row(form._token) }} 
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="flash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Отправить</button>
+    </form>
+</div>
+{% endblock %}

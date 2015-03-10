@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>{% block title %}Консультант{% endblock %}</title>
+      <!-- Bootstrap -->
+      {% stylesheets
+        '@ConsultFrontendBundle/Resources/public/css/bootstrap.min.css' filter='cssrewrite'
+        '@ConsultFrontendBundle/Resources/public/css/master.css' filter='cssrewrite' %}
+      <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+      {% endstylesheets %}
+
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body class="managepanel">
+      <div class="container">
+         <div class="header">
+           <h3 class="text-muted pull-left">Онлайн Консультант</h3>
+           <a class="btn btn-success pull-left" href="{{path('consultations')}}">Консультировать</a> 
+           <nav>
+             <ul class="nav nav-pills pull-right">
+               <li role="presentation" {% if page == 'consultant'%}class="active"{% endif %}><a href="{{path('consultants')}}">Консультанты</a></li>
+               <li role="presentation" {% if page == 'site'%}class="active"{% endif %}><a href="{{path('sites')}}">Сайты</a></li>
+               <li role="presentation" {% if page == 'settings'%}class="active"{% endif %}><a href="{{path('settings')}}">Настройка</a></li>
+             </ul>
+           </nav>
+           
+         </div>
+         {% block body%}{% endblock %}
+         <footer class="footer">
+            <p>&copy; Company 2015</p>
+          </footer>
+      </div>
+      {% javascripts
+      '@ConsultFrontendBundle/Resources/public/js/jquery-1.10.2.min.js' 
+      '@ConsultFrontendBundle/Resources/public/js/bootstrap.min.js'
+      '@ConsultFrontendBundle/Resources/public/js/jquery-ui.min.js'
+      '@ConsultFrontendBundle/Resources/public/js/strophe.js'
+      '@ConsultFrontendBundle/Resources/public/js/basic.js'
+      '@ConsultFrontendBundle/Resources/public/js/master.js' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+      {% endjavascripts %}
+   </body>
+</html>

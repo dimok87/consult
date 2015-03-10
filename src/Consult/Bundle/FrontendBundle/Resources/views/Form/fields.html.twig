@@ -1,0 +1,272 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{#{% macro collection(form, template, icon, attrs) %}#}
+    {#<div class="form-group collection-form-type">#}
+        {#{% if attrs.label is not defined %}#}
+            {#{{ form_label(form, null, {'label_attr': {'class': 'control-label col-md-4'}}) }}#}
+        {#{% else %}#}
+            {#{% if attrs.label is defined and attrs.label|length %}#}
+                {#{{ form_label(form, atts.label, {'label_attr': {'class': 'control-label col-md-4'}}) }}#}
+            {#{% endif %}#}
+        {#{% endif %}#}
+        {#<div class="{{ attrs.class is defined ? attrs.class : 'col-md-8' }}" last-index="{{ form.vars.data|max_key }}" collection-type="{{ template }}" can-remove-first-item="false" create-first-item="true">#}
+            {#<div class="item-container">#}
+                {#{% for child in form %}#}
+                    {#<div class="item">#}
+                        {#<div class="input-group">#}
+                            {#<span class="input-group-addon"><span class="glyphicon glyphicon-{{ icon }}"></span></span>#}
+                            {#{{ form_widget(child, {'attr': {'class': 'form-control'}}) }}#}
+                        {#</div>#}
+                        {#{% if not loop.first %}#}
+                            {#<a href="#" class="remove-item glyphicon glyphicon-remove-circle"></a>#}
+                        {#{% else %}#}
+                            {#<a href="#" class="add-item pull-right">+ Add One</a>#}
+                        {#{% endif %}#}
+                    {#</div>#}
+                {#{% else %}#}
+                    {#<a href="#" class="add-item pull-right">+ Add One</a>#}
+                {#{% endfor %}#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#{% endmacro %}#}
+
+{% block form_errors %}
+{% spaceless %}
+    {% for error in form.vars.errors %}
+        <p class="help-block">{{error.message}}</p>
+    {% endfor %}
+{% endspaceless %}
+{% endblock form_errors %}
+
+{% block form_row %}
+    <div class="{{ form.vars.errors|length > 0 ? 'has-error' : '' }}">
+        {{ form_label(form, null) }}
+        
+        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock form_row %}
+
+{% block network_contact_widget %}
+    {% import _self as forms %}
+    {% spaceless %}
+        {#
+            we should set first contact as primary if:
+            1) we just open new network page and doesn't submit ant contacts
+            2) network has no primary contact yet
+            3) network primary contact is not part of network contacts
+        #}
+        {% set isTemplate = form.vars.name == '__name__' %}
+        {% set isPristine = form.parent.parent.vars.value is empty %}
+        {% set primaryContactIndex = (isPristine ? 0 : form.parent.parent.vars.value.primaryContactIndex) %}
+        {% set isPrimary = not isTemplate and (primaryContactIndex is empty ? form.vars.name == 0 : form.vars.name == primaryContactIndex) %}
+        <hr>
+
+        <div class="col-md-5">
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.position) }}
+
+            <div class="form-group ">
+                <div class="col-md-8 col-md-offset-4">
+                    <label>
+                        <input
+                            type="radio"
+                            name="network[primaryContactIndex]"
+                            value="{{ form.vars.name }}"
+                            {% if isPrimary %}checked{% endif %}
+                            {% if isTemplate and isPristine %}ng-checked="__name__ == 0"{% endif %}
+                        />
+                        Is Primary Contact
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            {{ forms.collection(form.telephones, '#new_contacts_phone_form', 'phone-alt') }}
+            {{ forms.collection(form.mobiles, '#new_contacts_mobile_form', 'phone') }}
+            {{ forms.collection(form.emails, '#new_contacts_email_form', 'envelope') }}
+
+            <div class="form-group">
+                {{ form_label(form.skype, '', {'label_attr': {'class': 'control-label col-md-4'}}) }}
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-facetime-video"></span></span>
+                        {{ form_widget(form.skype, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block contact_widget %}
+    {% import _self as forms %}
+    {% spaceless %}
+        <div class="col-md-5">
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.position) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ forms.collection(form.telephones, '#new_contacts_phone_form', 'phone-alt') }}
+            {{ forms.collection(form.mobiles, '#new_contacts_mobile_form', 'phone') }}
+            {{ forms.collection(form.emails, '#new_contacts_email_form', 'envelope') }}
+
+            <div class="form-group">
+                {{ form_label(form.skype, '', {'label_attr': {'class': 'control-label col-md-4'}}) }}
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-facetime-video"></span></span>
+                        {{ form_widget(form.skype, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block network_daypart_widget %}
+    {% spaceless %}
+     <tr class="item">
+         <td class="col-md-3 {{ form.daypart.vars.errors|length > 0 ? 'has-error' : '' }}">{{ form_widget(form.daypart, {'attr': {'class': 'form-control select-rotation'}}) }}</td>
+         <td class="col-md-3 {{ form.dayOfWeek.vars.errors|length > 0 ? 'has-error' : '' }}">{{ form_widget(form.dayOfWeek, {'attr': {'class': 'form-control'}}) }}</td>
+         <td class="table-label">From: </td>
+         <td class="col-md-2 time-field {{ form.endAt.vars.errors|length > 0 ? 'has-error' : '' }}">{{ form_widget(form.startAt) }}</td>
+         <td class="table-label">Till: </td>
+         <td class="col-md-2 time-field {{ form.endAt.vars.errors|length > 0 ? 'has-error' : '' }}">{{ form_widget(form.endAt) }}</td>
+         <td class="actions">
+             <a ng-href="" class="copy-item">Copy</a> &nbsp;
+             <a ng-href="" class="remove-item">Delete</a>
+         </td>
+     </tr>
+    {% endspaceless %}
+{% endblock %}
+
+{% block network_selector_row %}
+    {% spaceless %}
+        <div class="network-selector {{ form.vars.errors|length > 0 ? 'has-error' : '' }}">
+            {{ form_label(form, null, {'label_attr': {'class': 'control-label', 'for': 'contact_network_query', 'required': false}}) }}
+            {{ form_widget(form.query, {'attr': {'class': 'form-control template-autocomplete'}}) }}
+
+            <span class="autocomplete-details">{{ form.vars.data.details }}</span>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block language_selector_row %}
+    {% spaceless %}
+        <div class="form-group {{ form.vars.errors|length > 0 ? 'has-error' : '' }}">
+            {{ form_label(form, null, {'label_attr': {'class': 'control-label col-md-4', 'for': 'spot_language_query', 'required': false}}) }}
+            <span title="This field is required" class="required">*</span>
+            <div class="col-md-8">
+                {{ form_widget(form.query, {'attr': {'class': 'form-control language-autocomplete'}}) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block holding_network_selector_row %}
+    {% spaceless %}
+        <div class="form-group  {{ form.vars.errors|length > 0 ? 'has-error' : '' }}">
+            {{ form_label(form, null, {'label_attr': {'class': 'control-label col-md-4', 'for': 'network_holdingNetwork_query', 'required': false}}) }}
+            <div class="col-md-8">
+                {{ form_widget(form.query, {'attr': {'class': 'form-control holding-network'}}) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block rate_widget %}
+    {% import _self as forms %}
+    {% spaceless %}
+        <div class="item" ng-controller="NetworkRateCtrl as Rate" rate-field>
+            <div class="col-md-4 daypart">
+                {{ form_widget(form.daypart, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-4 day-of-week">
+                {{ form_widget(form.dayOfWeek, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-2 spot">
+                {{ form_widget(form.spot, {'attr': {'class': 'form-control', 'ng-model': 'Rate.spot'}}) }}
+            </div>
+            <div class="col-md-3 price">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-md-3 date-field">
+                {{ form_widget(form.activeFrom, {'attr': {'class': 'form-control datepicker', 'readonly' : 'readonly'}}) }}
+            </div>
+            <div class="col-md-3 date-field">
+                {{ form_widget(form.expireAt, {'attr': {'class': 'form-control datepicker', 'readonly' : 'readonly'}}) }}
+            </div>
+            <div class="col-md-4 override">
+                {{ form_widget(form.applyForAllSpots, {'attr': {'class': 'override-checkbox', 'ng-disabled': 'Rate.spot != 30'}}) }}
+            </div>
+            <a href="#" class="remove-item glyphicon glyphicon-remove-circle"></a>
+            <div class="clearfix"></div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block rate_bulk_edit_widget %}
+    {% import _self as forms %}
+    {% spaceless %}
+        <div class="form-group rate" ng-controller="NetworkRateCtrl as Rate">
+            <div class="cell key col-md-2">
+                {{ form.vars.data.daypart ? form.vars.data.daypart.name : 'Rotation' }}
+            </div>
+            <div class="cell key col-md-2">
+                {{ form.vars.data.getDayOfWeekLabel }}
+            </div>
+            <div class="cell key col-md-2">
+                {{ form.vars.data.spot }}&quot;
+            </div>
+            <div class="cell col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="cell col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    {{ form_widget(form.activeFrom, {'attr': {'class': 'form-control datepicker', 'readonly' : 'readonly'}}) }}
+                </div>
+            </div>
+            <div class="cell col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    {{ form_widget(form.expireAt, {'attr': {'class': 'form-control datepicker', 'readonly' : 'readonly'}}) }}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block toc_time_widget %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+        {{ form_widget(form.hours) }}:{{ form_widget(form.minutes) }}
+        </div>
+    {% endspaceless %}
+{% endblock toc_time_widget %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                <div>
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}

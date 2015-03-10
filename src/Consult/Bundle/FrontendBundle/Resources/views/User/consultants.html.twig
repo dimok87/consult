@@ -1,0 +1,18 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Консультанты{% endblock %}
+
+{% block body %}
+<div class="row">
+   <div class="col-lg-12">
+      <h4>Консультанты</h4>
+      <div class="list-group">
+         {% for consultant in consultants %}
+         <a href="{{ path('editconsultant', {'id': consultant.id}) }}" class="list-group-item">{{ consultant.name }}</a>
+         <a href="#" class="close" data-dismiss="alert" onclick="javascript:if (!confirm('Вы уверены?')) { return false; } else { location.href='{{path('deleteconsultant', {'id' : consultant.id})}}'; return false; }">&times;</a>
+         {% endfor %}
+      </div>
+   </div>
+</div>
+<a href="{{ path('addconsultant') }}">Добавить</a>
+{% endblock body %}

@@ -1,0 +1,46 @@
+{% extends 'ConsultFrontendBundle:Layout:base.html.twig' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block body %}
+<div class="jumbotron">  
+   <div class="container">
+      <h1>Регистрация в системе Консультант</h1>
+      <p class="lead">После регистрации вы сразу же получаете 2-х недельный тестовый период с максимальными возможностями</p>
+   </div>
+</div>
+<div class="container">
+   <form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+      <h2 class="form-signin-heading">Регистрация</h2>
+       {{ form_row(form.username, {
+           label: 'Логин',
+           attr : { placeholder : 'Логин'},
+           label_attr : { class: 'sr-only'}
+       }) }}
+       {{ form_row(form.email, {
+           label: 'Email',
+           attr : { placeholder : 'Email'},
+           label_attr : { class: 'sr-only'}
+       }) }}
+       {{ form_row(form.name, {
+           label: 'Имя',
+           attr : { placeholder : 'Имя'},
+           label_attr : { class: 'sr-only'}
+       }) }}
+       {{ form_row(form.plainPassword.first, {
+           label: 'Пароль',
+           attr : { placeholder : 'Пароль'},
+           label_attr : { class: 'sr-only'}
+       }) }}
+       {{ form_row(form.plainPassword.second,  {
+           label: 'Повтор пароля',
+           attr : { placeholder : 'Повтор пароля'},
+           label_attr : { class: 'sr-only'}
+       }) }}
+
+      {{ form_row(form._token) }} 
+
+       <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+   </form>
+</div>
+{% endblock body %}

@@ -1,0 +1,23 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Добавление сайта{% endblock %}
+
+{% block body %}
+<form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+   <h2 class="form-signin-heading">Добавить сайт</h2>
+    {{ form_row(form.title, {
+        label: 'Название',
+        attr : { placeholder : 'Название'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+    {{ form_row(form.url, {
+        label: 'Доменное имя',
+        attr : { placeholder : 'Доменное имя'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+
+   {{ form_row(form._token) }} 
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить</button>
+</form>
+{% endblock body %}

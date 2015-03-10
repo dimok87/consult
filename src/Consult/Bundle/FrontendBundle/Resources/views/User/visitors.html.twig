@@ -1,0 +1,16 @@
+{% extends 'ConsultFrontendBundle:Layout:consult.html.twig' %}
+
+{% block title %}Клиенты{% endblock %}
+
+{% block body %}
+<div class="row">
+   <div class="col-lg-12">
+        <h4>Клиенты</h4>
+        <div class="list-group">
+        {% for client in clients %}
+           <a href="{{ path('viewclient', {'id': client.id}) }}" class="list-group-item">{% if client.name %}{{client.name}}{% else %}Клиент #{{ client.id }}{% endif %}</a>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

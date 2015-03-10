@@ -1,0 +1,60 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Настройка сайта{% endblock %}
+
+{% block body %}
+<form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+   <h2 class="form-signin-heading">Настройка сайта</h2>
+    {{ form_row(form.offlineEmail, {
+        label: 'E-Mail для офлайн-сообщений',
+        attr : { placeholder : 'E-Mail для офлайн-сообщений'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+    {{ form_row(form.offlineText, {
+        label: 'Текст при офлайн',
+        attr : { placeholder : 'Текст при офлайн'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+   {{ form_row(form.allowMark, {
+        label: 'Разрешить оценивать консультантов'
+    }) }}
+
+   {{ form_row(form._token) }} 
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Изменить</button>
+</form>
+
+<div class="row">
+   <div class="col-lg-12">
+        <h4>Распределение</h4>
+        <div class="list-group" id="distribution" data-href="{{ path('reorder', {'id' : site.id}) }}">
+        {% for line in lines %}
+           {% if line.consultants %}
+           <div class="list-group-item list-group-item-success" id="line_{{line.sort}}">
+              <nav>
+                  <ul class="nav nav-pills">
+                     {% for consultant in line.consultants %}
+                     <li class="active"><a href="javascript: void(0);">{{consultant.name}}</a></li>
+                     {% endfor %}
+                  </ul>
+              </nav>
+           </div>
+           {% endif %}
+        {% endfor %}
+      
+        <h4>Отделы</h4>
+        {% if site.departments|length %}
+        <div class="list-group">
+        {% for department in site.departments %}
+           <a href="{{ path('editdepartment', {'id' : department.id}) }}" class="list-group-item">{{ department.title }}</a>
+           <a href="#" class="close" data-dismiss="alert" onclick="javascript:if (!confirm('Вы уверены?')) { return false; } else { location.href='{{path('deletedepartment', {'id' : department.id})}}'; return false; }">&times;</a>
+        {% endfor %}
+        </div>
+        {% else %}
+        <p>Для Вашего сайта не назначено ни одного отдела</p>
+        {% endif%}
+        <a href="{{ path('department', {'id' : site.id}) }}">Добавить</a>
+        
+    </div>
+</div>
+{% endblock body %}

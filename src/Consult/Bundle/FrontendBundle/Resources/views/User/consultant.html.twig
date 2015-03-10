@@ -1,0 +1,28 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Добавить консультанта{% endblock %}
+
+{% block body %}
+<form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+   <h2 class="form-signin-heading">Добавить консультанта</h2>
+    {{ form_row(form.username, {
+        label: 'Логин',
+        attr : { placeholder : 'Логин'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+    {{ form_row(form.name, {
+        label: 'Имя',
+        attr : { placeholder : 'Имя'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+    {{ form_row(form.plainPassword, {
+        label: 'Пароль',
+        attr : { placeholder : 'Пароль'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+
+   {{ form_row(form._token) }} 
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить</button>
+</form>
+{% endblock body %}

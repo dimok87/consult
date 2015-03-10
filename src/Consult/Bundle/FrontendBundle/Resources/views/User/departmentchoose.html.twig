@@ -1,0 +1,16 @@
+{% extends 'ConsultFrontendBundle:Layout:simple.html.twig' %}
+
+{% block title %}Выбор отдела{% endblock %}
+
+{% block body %}
+{% if departments|length > 0%}
+   <h4>Выберите отдел</h4>
+   <div class="list-group">
+   {% for department in departments %}
+       <a href="{{ path('message', {'guid':department.site.guid,'department':department.id}) }}" class="list-group-item">{{ department.title }}</a>
+   {% endfor %}
+   </div>
+{% else %}
+<p>Для сайта не создано ни одного отдела</p>
+{% endif%}
+{% endblock body %}

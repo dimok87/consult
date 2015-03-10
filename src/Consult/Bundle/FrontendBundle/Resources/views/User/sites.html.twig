@@ -1,0 +1,18 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Сайты{% endblock %}
+
+{% block body %}
+<div class="row">
+   <div class="col-lg-12">
+        <h4>Сайты</h4>
+        <div class="list-group">
+        {% for site in sites %}
+           <a href="{{ path('editsite', {'id': site.id}) }}" class="list-group-item">{{ site.title }}</a>
+           <a href="#" class="close" data-dismiss="alert" onclick="javascript:if (!confirm('Вы уверены?')) { return false; } else { location.href='{{path('deletesite', {'id' : site.id})}}'; return false; }">&times;</a>
+        {% endfor %}
+        </div>
+        <a href="{{ path('addsite') }}">Добавить</a>
+    </div>
+</div>
+{% endblock body %}

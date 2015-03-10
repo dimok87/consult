@@ -1,0 +1,10 @@
+consult_business:
+    resource: "@ConsultBusinessBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+consult_frontend:
+    resource: "@ConsultFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

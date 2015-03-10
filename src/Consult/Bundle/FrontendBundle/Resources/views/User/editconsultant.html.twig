@@ -1,0 +1,27 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Править консультанта{% endblock %}
+
+{% block body %}
+<form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+   <h2 class="form-signin-heading">Править консультанта</h2>
+    {{ form_row(form.name, {
+        label: 'Имя',
+        attr : { placeholder : 'Имя'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+    {{ form_row(form.position, {
+        label: 'Должность',
+        attr : { placeholder : 'Должность'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+    {{ form_row(form.avatar, {
+        label: 'Аватар',
+        attr : { placeholder : 'Аватар'}
+    }) }}
+
+   {{ form_row(form._token) }} 
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Изменить</button>
+</form>
+{% endblock body %}

@@ -1,0 +1,42 @@
+{% extends 'ConsultFrontendBundle:Layout:simple.html.twig' %}
+
+{% block title %}Сообщение{% endblock %}
+
+{% block body %}
+{% if isOnline %}
+<div id="chat" data-client="{{client.id}}" data-consultant="{{consultant.id}}" data-get="{{ path('messages', {'guid':site.guid}) }}" data-send="{{ path('sendclientmessage', {'guid':site.guid}) }}">
+</div>
+{% else %}
+<div class="container padding-top">
+    <div class="row">
+        <h4 class="col-md-offset-3">Новое сообщение</h4>
+        <form class="form-horizontal col-md-8" method="post" {{ form_enctype(form) }} novalidate>
+           
+           {{ form_row(form.name, {
+                label: 'Имя'
+            }) }}
+           
+           {{ form_row(form.phone, {
+                label: 'Номер телефона'
+            }) }}
+           
+            {{ form_row(form.email, {
+                label: 'Электронная почта'
+            }) }}
+           
+            {{ form_row(form.message, {
+                label: 'Сообщение'
+            }) }}
+           
+           {{ form_row(form._token) }} 
+
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    <button type="submit" class="btn btn-info">Отправить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock body %}

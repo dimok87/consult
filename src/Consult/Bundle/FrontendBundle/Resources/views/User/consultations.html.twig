@@ -1,0 +1,8 @@
+{% extends 'ConsultFrontendBundle:Layout:consult.html.twig' %}
+
+{% block title %}Консультации{% endblock %}
+
+{% block body %}
+<div id="consultations" rel="{{id}}" data-get="{{ path('clients') }}" data-send="{{ path('sendmessage') }}">
+</div>
+{% endblock body %}

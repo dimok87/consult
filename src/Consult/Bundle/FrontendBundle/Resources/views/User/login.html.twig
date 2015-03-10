@@ -1,0 +1,26 @@
+{% extends 'ConsultFrontendBundle:Layout:simple.html.twig' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block body %}
+<form class="form-signin" action="{{ path("security_check") }}" method="post">
+   <h2 class="form-signin-heading">Войти в систему</h2>
+   {% if error %}
+      <div class="alert alert-danger alert-dismissable">
+          {{ error.message }}
+      </div>
+  {% endif %}
+   <label for="username" class="sr-only">Логин</label>
+   <input type="text" id="username" name="_username" class="form-control" placeholder="Логин" value="{{ last_username }}" required autofocus>
+   <label for="password" class="sr-only">Пароль</label>
+   <input type="password" id="password" name="_password" class="form-control" placeholder="Пароль" required>
+   <div class="checkbox">
+     <label>
+       <input type="checkbox" id="remember_me" name="_remember_me" checked> Запомнить меня
+     </label>
+   </div>
+   <div><a href="{{ path('registration') }}">Регистрация</a></div>
+   <div><a href="{{ path('recover') }}">Восстановление пароля</a></div>
+   <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+ </form>
+{% endblock %}

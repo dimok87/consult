@@ -1,0 +1,30 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Добавление отдела{% endblock %}
+
+{% block body %}
+<form class="form-signin" method="post" {{ form_enctype(form) }} novalidate>
+   <h2 class="form-signin-heading">Добавить отдел</h2>
+    {{ form_row(form.title, {
+        label: 'Название',
+        attr : { placeholder : 'Название'},
+        label_attr : { class: 'sr-only'}
+    }) }}
+   
+    <div>
+        <label>Включить консультантов</label>
+        <ul>
+        {% for r in form.consultants %}
+            <li>
+                {{ form_widget(r) }}
+                {{ form_label(r) }}
+            </li>
+        {% endfor %}    
+        </ul>
+    </div>
+
+   {{ form_row(form._token) }} 
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить</button>
+</form>
+{% endblock body %}

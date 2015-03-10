@@ -1,0 +1,82 @@
+{% extends 'ConsultFrontendBundle:Layout:consult.html.twig' %}
+
+{% block title %}Информация о клиенте{% endblock %}
+
+{% block body %}
+<div class="row">
+   <div class="col-lg-12">
+        <div class="pull-left">
+            <h4>{% if client.name %}{{client.name}}{% else %}Клиент #{{ client.id }}{% endif %}</h4>
+            <p>{% if client.city %}{{client.city}}{% else %}Город не определен{% endif %}</p>
+            <p>{% if client.country %}{{client.country}}{% else %}Страна не определена{% endif %}</p>
+            <p><a href="{{client.site.url}}" target="_blank">{{client.site.title}}</a></p>
+        </div>
+        <form class="form-signin pull-right" method="post" {{ form_enctype(form) }} novalidate>
+          {{ form_row(form.name, {
+              label: 'Имя',
+              attr : { placeholder : 'Имя'},
+              label_attr : { class: 'sr-only'}
+          }) }}
+
+         {{ form_row(form._token) }} 
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Изменить</button>
+        </form>
+        <div class="clearfix"></div>
+        <a class="btn btn-primary" href="{{path('consultations')}}?id={{client.id}}">К Диалогу</a>
+        <hr />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Посещенные страницы</h3>
+            </div>
+            <div class="panel-body">
+                <div id="visit" rel="{{path('visits', {id:client.id})}}">
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Расположение</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                   <tr>
+                      <td>IP адрес:</td>
+                      <td>{{client.ip}}</td>
+                   </tr>
+                   <tr>
+                      <td>Страна:</td>
+                      <td>{% if client.country %}{{client.country}}{% else %}Страна не определена{% endif %}</td>
+                   </tr>
+                   <tr>
+                      <td>Город:</td>
+                      <td>{% if client.city %}{{client.city}}{% else %}Город не определен{% endif %}</td>
+                   </tr>
+                   <tr>
+                      <td>Провайдер:</td>
+                      <td>{{client.provider}}</td>
+                   </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Информация</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                   <tr>
+                      <td>Браузер:</td>
+                      <td>{{client.browser}}</td>
+                   </tr>
+                   <tr>
+                      <td>ОС:</td>
+                      <td>{{client.os}}</td>
+                   </tr>
+                </table>
+            </div>
+        </div>
+        
+        
+   <div>
+</div>
+{% endblock body %}

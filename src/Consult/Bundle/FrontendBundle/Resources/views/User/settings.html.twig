@@ -1,0 +1,80 @@
+{% extends 'ConsultFrontendBundle:Layout:panel.html.twig' %}
+
+{% block title %}Настройка{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-pills">
+   <li {% if passwordForm.vars.valid and userpicForm.vars.valid %}class="active"{% endif %}>
+      <a data-toggle="tab" href="#personal">
+         <i class="fa fa-cog"></i> Персональная информация
+      </a>
+   </li>
+   <li {% if not userpicForm.vars.valid %}class="active"{% endif %}>
+      <a data-toggle="tab" href="#userpic">
+         <i class="fa fa-picture-o"></i> Смена аватара
+      </a>
+   </li>
+   <li {% if not passwordForm.vars.valid %}class="active"{% endif %}>
+      <a data-toggle="tab" href="#password">
+         <i class="fa fa-lock"></i> Смена пароля
+      </a>
+   </li>
+</ul>
+
+<div class="tab-content">
+   <div id="personal" class="tab-pane {% if passwordForm.vars.valid %}active{% endif %}">
+      <form class="form-signin" method="post" {{ form_enctype(personalForm) }} novalidate>
+         <h2 class="form-signin-heading">Персональные данные</h2>
+          {{ form_row(personalForm.name, {
+              label: 'Имя',
+              attr : { placeholder : 'Имя'},
+              label_attr : { class: 'sr-only'}
+          }) }}
+          {{ form_row(personalForm.position, {
+              label: 'Должность',
+              attr : { placeholder : 'Должность'},
+              label_attr : { class: 'sr-only'}
+          }) }}
+         {{ form_row(personalForm.role, {
+              label: 'Роль',
+              attr : { placeholder : 'Роль'}
+          }) }}
+
+         {{ form_row(personalForm._token) }} 
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Изменить</button>
+      </form>
+  </div>
+  <div id="userpic" class="tab-pane"> 
+      <form class="form-signin" method="post" {{ form_enctype(userpicForm) }} novalidate>
+         <h2 class="form-signin-heading">Смена фотографии</h2>
+         {{ form_row(userpicForm.avatar, {
+             label: 'Фотография',
+             attr : { placeholder : 'Фотография'}
+         }) }}
+
+        {{ form_row(userpicForm._token) }} 
+
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Изменить</button>
+      </form>
+  </div>
+  <div id="password" class="tab-pane {% if not passwordForm.vars.valid %}active{% endif %}">
+      <form class="form-signin" method="post" {{ form_enctype(passwordForm) }} novalidate>
+         <h2 class="form-signin-heading">Смена пароля</h2>
+          {{ form_row(passwordForm.plainPassword.first, {
+              label: 'Новый пароль',
+              attr : { placeholder : 'Новый пароль'},
+              label_attr : { class: 'sr-only'}
+          }) }}
+          {{ form_row(passwordForm.plainPassword.second,  {
+              label: 'Повтор пароля',
+              attr : { placeholder : 'Повтор пароля'},
+              label_attr : { class: 'sr-only'}
+          }) }}
+
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Сменить</button>
+      </form>
+  </div>
+</div>
+{% endblock body %}
