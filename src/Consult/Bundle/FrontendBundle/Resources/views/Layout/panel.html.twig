@@ -27,7 +27,7 @@
            <h3 class="text-muted pull-left">Онлайн Консультант</h3>
            <a class="btn btn-success pull-left" href="{{path('consultations')}}">Консультировать</a> 
            <nav>
-             <ul class="nav nav-pills pull-right">
+             <ul class="nav nav-pills">
                <li role="presentation" {% if page == 'consultant'%}class="active"{% endif %}><a href="{{path('consultants')}}">Консультанты</a></li>
                <li role="presentation" {% if page == 'site'%}class="active"{% endif %}><a href="{{path('sites')}}">Сайты</a></li>
                <li role="presentation" {% if page == 'settings'%}class="active"{% endif %}><a href="{{path('settings')}}">Настройка</a></li>
